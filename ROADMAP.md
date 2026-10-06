@@ -1,10 +1,20 @@
 # Roomify → SaaS: Phased Build Plan
 
-**Product:** 3D floor plans for property listings — **the only one that ships proof it matches your plan.**
+> ## ⚠️ POSITIONING INVALIDATED 2026-10-06
+>
+> The fidelity claim below **failed its own test** (see Phase 1 Day 4). Vizcraft — free — was judged
+> better on output and on plan fidelity. Everything in this document that depends on "we are the
+> faithful one" is suspended, **including all of Phase 4**. The product positioning is an open
+> question and this header is deliberately left contradicted rather than rewritten into a new
+> unverified claim.
 
-**Positioning:** not faster, not cheaper. **Checkable.** Speed is table stakes (competitors run 10–30 s,
-several free) and per-render price is racing to zero (~$0.04). The one axis nobody in our segment is
-competing on is *verifiable geometric fidelity*.
+**Product:** 3D floor plans for property listings — ~~**the only one that ships proof it matches your plan.**~~
+
+**Positioning:** ~~not faster, not cheaper. **Checkable.**~~ **Dead.** Speed is table stakes
+(competitors run 10–30 s, several free), per-render price is racing to zero (~$0.04), **and quality is
+now verified as lost.** As a renderer there is no wedge left. The only directions not yet disproven are
+*workflow and delivery for one specific buyer* — bulk listings, per-listing delivery, white-label
+resale — which is a different business from rendering.
 
 **Beachhead:** **real estate listing photographers and media companies** — businesses that already
 produce listing assets, already hold the digitised floor plan, and resell to 30–80 agents each.
@@ -175,13 +185,39 @@ Rule: **only fix what survives the re-platform.**
 Goal: establish whether we actually beat the free tools on geometry, then find out whether
 photographers will pay for that. **The most important phase in the document.**
 
-### Day 4 — The head-to-head (this is now the gate)
+### Day 4 — The head-to-head (this was the gate, and we failed it)
+
+> ## RESULT 2026-10-06: **WE LOST.**
+>
+> Vizcraft was judged better on overall output **and on plan fidelity** — the one axis the entire
+> positioning rested on. Vizcraft is **free**.
+>
+> **The fidelity wedge is dead.** Per the standing instruction in this very section, it is written
+> here rather than quietly dropped. Consequences, in order of how much they cost:
+>
+> 1. **Do not write Day 6's landing copy.** "3D floor plans that actually match your plan" is now a
+>    false claim. It does not get softened; it gets deleted.
+> 2. **Do not build Phase 4 (Plan Match / the fidelity report).** It was the product's centrepiece
+>    and roughly a third of the engineering in this document. A fidelity report whose headline number
+>    is worse than a free competitor's is an argument *against* buying. Phase 4 is suspended.
+> 3. **Scoring the renders in a table is moot.** The table existed to prove a win. There is no win.
+>
+> **The harder conclusion, which is the real finding:** we have now lost on speed (10–30 s, matched),
+> on price (free to ~$0.04, unbeatable), and on quality (verified today). As a *renderer*, Roomify
+> has no wedge left. **Winning this test would not have saved it either** — parity or a slight edge
+> over a free product does not make anyone pay. The test did not create that problem, it revealed it
+> about three weeks early and for nothing.
+>
+> **One caveat, stated so it is not mistaken for hope:** we tested an untuned prompt on a
+> general-purpose model against a purpose-built product. That is not a fair fight, and prompt tuning
+> is a cheap way to close much of the gap. It is worth doing **for product quality**. It is **not** a
+> strategy, because parity with free is still not a business. Do not let it reopen this question.
+
 - [x] ~~Verify the price assumption~~ **Done 2026-10-06 — see thesis.**
-- [ ] **Run the head-to-head.** Same 5 real listing plans through **Roomify, Vizcraft (free), Rendair, Drafto**. Save every output
-- [ ] Score each render manually against its source plan on: **wall positions, room count, outdoor rooms preserved, text fully removed, furniture in the correct rooms, invented features**
-- [ ] Record the scores in a table in this file. This is the founding dataset for Phase 4
-- [ ] **If we do not clearly win on fidelity, stop and write that here.** It is the only ground left. Do not write Day 6 copy on an unverified quality claim
-- [ ] Tune `ROOMIFY_RENDER_PROMPT` against the five failure modes and re-score. Prompt work is the cheapest fidelity gain available
+- [x] **Head-to-head run against Vizcraft.** Verdict: Vizcraft better overall *and* on plan fidelity
+- [x] **Recorded the loss here**, as the gate required
+- [ ] ~~Score every render in a table~~ **Dropped — the dataset existed to support Phase 4, which is suspended**
+- [ ] Tune `ROOMIFY_RENDER_PROMPT` against the observed failure modes. Worth doing for quality; **not** a repositioning
 
 ### Day 5 — Open the funnel, watermark, compliance label
 
@@ -339,9 +375,15 @@ Priced for a reseller: a photographer cares about **cost per plan against what t
 
 ---
 
-## Phase 4 — Plan Match: the differentiator (7 days)
+## Phase 4 — Plan Match ~~the differentiator~~ **SUSPENDED** (7 days)
 
-**This is the product.** Promoted ahead of features because it is the only thing in the plan that
+> **Suspended 2026-10-06.** The Day 4 head-to-head returned the opposite of this phase's premise:
+> Vizcraft, free, was judged more faithful to the plan. A fidelity report is only an asset while the
+> number on it is good; ours would be an argument against buying. **Do not start this phase.** It is
+> left in the document because the *measurement* work is still the right tool if the render quality is
+> ever genuinely won — but that has to be true first, and today it is false.
+
+~~**This is the product.**~~ Promoted ahead of features because it is the only thing in the plan that
 nine competitors cannot copy by prompting, and because it converts an unverifiable aesthetic claim
 into an artifact the buyer can check. Build the referee before the better player.
 

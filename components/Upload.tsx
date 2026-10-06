@@ -10,6 +10,7 @@ import {
     PROGRESS_INTERVAL_MS,
     REDIRECT_DELAY_MS,
 } from "../lib/constants";
+import {track} from "../lib/analytics";
 
 const isAcceptedType = (type: string) =>
     (ACCEPTED_IMAGE_TYPES as readonly string[]).includes(type);
@@ -62,9 +63,13 @@ const Upload = ({ onComplete, className = '' }: UploadProps) => {
     const processFile = useCallback((nextFile: File) => {
         const validationError = validateFile(nextFile);
         if (validationError) {
+            // Reported by reason, never by filename.
+            track("upload_failed", { reason: validationError });
             reset(validationError);
             return;
         }
+
+        track("upload_started", { sizeKb: Math.round(nextFile.size / 1024), type: nextFile.type });
 
         // A previous selection may still be running its progress timers.
         clearTimers();

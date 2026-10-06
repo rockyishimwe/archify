@@ -1,6 +1,6 @@
 import {Box} from "lucide-react";
 import Button from "./ui/Button";
-import {useOutletContext} from "react-router";
+import {Link, useOutletContext} from "react-router";
 
 const Navbar = () => {
     const { isSignedIn, userName, signIn, signOut } = useOutletContext<AuthContext>()
@@ -38,6 +38,7 @@ const Navbar = () => {
                     <ul className="links">
                         <li><a href="#upload">Upload a plan</a></li>
                         <li><a href="#projects">Projects</a></li>
+                        <li><Link to="/pricing">Pricing</Link></li>
                     </ul>
                 </div>
 

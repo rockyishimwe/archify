@@ -84,3 +84,13 @@ interface Generate3DViewParams {
     sourceImage: string;
     projectId?: string | null;
 }
+
+type WaitlistRole = "photographer" | "agent" | "designer" | "builder" | "other";
+type WaitlistStatus = "idle" | "saving" | "done";
+
+interface WaitlistFormProps {
+    /** Where the signup happened, so conversion can be read per surface. */
+    source: "result" | "pricing";
+    title: string;
+    description: string;
+}

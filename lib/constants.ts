@@ -49,3 +49,76 @@ STYLE & LIGHTING:
 - Materials: realistic wood/tile floors, clean walls, subtle shadows.
 - Finish: professional architectural visualization; no text, no watermarks, no logos.
 `.trim();
+
+// Waitlist
+// Optional collector (Formspree, a Worker route, anything that accepts a JSON
+// POST). When unset, the signup still fires a `waitlist_submitted` analytics
+// event with the role but *not* the address — see components/WaitlistForm.tsx.
+export const WAITLIST_ENDPOINT = import.meta.env.VITE_WAITLIST_ENDPOINT || "";
+
+// Role segmentation is the point of the form, not a nicety: it tests whether
+// listing photographers are really the beachhead (ROADMAP Phase 1).
+export const WAITLIST_ROLES = [
+    { value: "photographer", label: "Real-estate photographer / media company" },
+    { value: "agent", label: "Agent or broker" },
+    { value: "designer", label: "Interior designer or stager" },
+    { value: "builder", label: "Builder, developer, or architect" },
+    { value: "other", label: "Something else" },
+] as const;
+
+// Pricing
+// Anchored on the human incumbent (BoxBrownie: ~$40 per storey, ~48h turnaround),
+// never on the cheap AI tools. Rendair at ~$0.04/render is a race we would lose
+// and do not want to be in. These numbers are a *price test*, not billing — no
+// payment is taken anywhere in the product yet (ROADMAP Phase 2).
+export const ANCHOR_PRICE_USD = 40;
+export const ANCHOR_TURNAROUND = "48 hours";
+
+export const PRICING_PLANS = [
+    {
+        id: "single",
+        name: "Per plan",
+        price: "$5",
+        unit: "per floor plan",
+        summary: "No account commitment. Pay for the plans you actually render.",
+        features: [
+            "Photoreal top-down render",
+            "Compliance label burned in",
+            "Full-resolution download",
+            "Renders stored in your own account",
+        ],
+        cta: "Render a plan",
+        featured: false,
+    },
+    {
+        id: "studio",
+        name: "Studio",
+        price: "$49",
+        unit: "per month",
+        summary: "For photographers shipping listing packages every week.",
+        features: [
+            "25 plans a month, $3 per plan after",
+            "Bulk upload a whole listing at once",
+            "Per-listing delivery folder",
+            "Fidelity report with every render",
+            "No Roomify watermark",
+        ],
+        cta: "Join the list",
+        featured: true,
+    },
+    {
+        id: "brand",
+        name: "White label",
+        price: "Talk to us",
+        unit: "volume pricing",
+        summary: "Resell it as your own. Your name on the delivery, not ours.",
+        features: [
+            "Your branding on every render",
+            "API access",
+            "Priority rendering queue",
+            "Volume rates below $3 per plan",
+        ],
+        cta: "Join the list",
+        featured: false,
+    },
+] as const;

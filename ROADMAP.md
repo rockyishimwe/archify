@@ -219,11 +219,30 @@ moves watermarking server-side.** The label is cheap insurance, not DRM.
 - [ ] Single CTA: upload. Remove every competing CTA
 
 ### Day 7 — Instrument, price, and put it in front of photographers
-- [ ] Analytics (PostHog or Plausible): `page_view`, `upload_started`, `render_started`, `render_succeeded`, `render_failed`, `download_clicked`, `signup_started`, `signup_completed`
-- [ ] Email capture on the result screen: *"Want bulk upload for a whole listing package? Join the list"*
-- [ ] `/pricing` page: **per plan alongside subscription**, anchored on BoxBrownie's $40/storey, testing ~$3–5/plan. Never anchor on Rendair's $0.04. **Price before building billing**
-- [ ] Say in the copy what the cheap tools do not do: bulk, per-listing delivery, white-label, API, **a fidelity report**
-- [ ] Segment the waitlist by role (photographer / agent / designer / other) — this tests the beachhead choice
+
+> **Built 2026-10-06, out of order.** Day 6's landing copy depends on the Day 4 head-to-head, which
+> has not been run. Every item below is independent of that result, so none of it is wasted work
+> whichever way the test goes.
+
+- [x] Analytics: `lib/analytics.ts` fires `page_view`, `upload_started`, `upload_failed`,
+      `render_started`, `render_succeeded` (with duration), `render_failed` (with reason),
+      `download_clicked`, `signup_started`, `signup_completed`, `signup_cancelled`,
+      `pricing_viewed`, `pricing_plan_clicked`, `waitlist_submitted`. Event names are a TS union,
+      so a typo is a build error rather than a missing metric
+- [x] **No analytics dependency added.** Events POST to PostHog's capture endpoint directly — no
+      third-party script on the landing page's critical path, nothing shipped when the key is
+      unset. Trade-off: no autocapture, no session replay. Swap the transport in one file if we
+      ever need them
+- [x] Email capture on the result screen, shown only once a render exists
+- [x] `/pricing` page: per-plan $5 alongside Studio $49/mo and white-label, anchored on
+      BoxBrownie's $40/storey and 48h. **Never anchored on Rendair's $0.04**
+- [x] Copy states plainly that no payment is taken yet — these numbers are a price test
+- [x] Copy says what the cheap tools do not do: bulk, per-listing delivery, white-label, API, fidelity report
+- [x] Waitlist segmented by role (photographer / agent / designer / builder / other) — tests the beachhead
+- [ ] **Wire a real waitlist collector.** `VITE_WAITLIST_ENDPOINT` is unset, so today a signup
+      records the *role* in analytics and nothing stores the address. The form's copy does not
+      claim otherwise, but this is a 20-minute Formspree job and should not ship to real traffic
+      unfinished
 - [ ] Deploy (Vercel / Fly — the Dockerfile already works)
 - [ ] **Channels, narrowed:** large real-estate-photography Facebook groups, r/RealEstatePhotography, PFRE, a local real-estate-media group, LinkedIn. **Dropped: r/InteriorDesign and r/Architects** — not their deliverable until Phase 5 and Phase 7
 - [ ] Build a named list of 50 listing photographers / media companies locally. They are directory-listed; this is an afternoon

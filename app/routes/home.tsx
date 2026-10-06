@@ -8,6 +8,7 @@ import {useNavigate, useOutletContext} from "react-router";
 import {useEffect, useRef, useState} from "react";
 import {createProject, getProjects} from "../../lib/puter.action";
 import {MAX_FILE_SIZE_MB} from "../../lib/constants";
+import {track} from "../../lib/analytics";
 
 const TITLE = "Roomify — Photoreal renders from floor plans, in 60 seconds";
 const DESCRIPTION =
@@ -95,12 +96,17 @@ export default function Home() {
         setIsAuthPromptOpen(false);
         setPendingError(null);
 
+        track("signup_started", { source: "pending_plan" });
+
         try {
             const signedIn = await signIn();
             if (!signedIn) {
+                track("signup_cancelled");
                 setPendingError("Sign in was cancelled. Your plan is still here.");
                 return;
             }
+
+            track("signup_completed");
 
             const created = await createAndOpen(pendingImage);
             if (!created) {
@@ -114,6 +120,10 @@ export default function Home() {
             setPendingError("Sign in failed. Please try again.");
         }
     }
+
+    useEffect(() => {
+        track("page_view", { page: "home" });
+    }, []);
 
     useEffect(() => {
         let isMounted = true;

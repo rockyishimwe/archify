@@ -636,4 +636,151 @@
             @apply text-sm text-zinc-500;
         }
     }
+
+    .waitlist {
+        @apply w-full rounded-xl border border-zinc-200 bg-zinc-50 p-6;
+
+        &.is-done {
+            @apply flex items-start gap-3 border-emerald-200 bg-emerald-50;
+
+            .icon {
+                @apply w-5 h-5 text-emerald-600 shrink-0 mt-0.5;
+            }
+
+            h3 {
+                @apply text-lg font-serif font-bold text-zinc-900;
+            }
+
+            p {
+                @apply text-sm text-zinc-600 mt-1;
+            }
+        }
+
+        .waitlist-copy {
+            h3 {
+                @apply text-xl font-serif font-bold text-zinc-900;
+            }
+
+            p {
+                @apply text-sm text-zinc-600 mt-1;
+            }
+        }
+
+        .waitlist-fields {
+            @apply mt-4 flex flex-col md:flex-row md:items-end gap-3;
+
+            .field {
+                @apply flex-1 flex flex-col gap-1;
+
+                span {
+                    @apply text-xs font-bold uppercase tracking-wider text-zinc-500;
+                }
+
+                input,
+                select {
+                    @apply w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 outline-none focus:border-primary;
+                }
+            }
+        }
+
+        .waitlist-error {
+            @apply mt-3 text-sm text-red-600;
+        }
+    }
+
+    .pricing {
+        @apply min-h-screen bg-background;
+
+        .pricing-hero {
+            @apply max-w-3xl mx-auto px-6 pt-16 pb-10 text-center;
+
+            h1 {
+                @apply text-4xl md:text-5xl font-serif font-bold text-zinc-900;
+            }
+
+            .subtitle {
+                @apply mt-4 text-lg text-zinc-600;
+            }
+        }
+
+        .pricing-note {
+            @apply mt-4 text-sm text-zinc-500;
+        }
+
+        .plans {
+            @apply max-w-6xl mx-auto px-6 grid gap-6 md:grid-cols-3;
+
+            .plan {
+                @apply relative flex flex-col rounded-xl border border-zinc-200 bg-white p-6;
+
+                &.is-featured {
+                    @apply border-primary shadow-neobrutalism;
+                }
+
+                .plan-flag {
+                    @apply absolute -top-3 left-6 rounded-full bg-primary px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-white;
+                }
+
+                h2 {
+                    @apply text-xl font-serif font-bold text-zinc-900;
+                }
+
+                .plan-price {
+                    @apply mt-2 flex items-baseline gap-2;
+
+                    strong {
+                        @apply text-3xl font-bold text-zinc-900;
+                    }
+
+                    span {
+                        @apply text-sm text-zinc-500;
+                    }
+                }
+
+                .plan-summary {
+                    @apply mt-3 text-sm text-zinc-600;
+                }
+
+                .plan-features {
+                    @apply mt-5 space-y-2 grow;
+
+                    li {
+                        @apply flex items-start gap-2 text-sm text-zinc-700;
+
+                        svg {
+                            @apply text-primary shrink-0 mt-1;
+                        }
+                    }
+                }
+
+                .plan-cta {
+                    @apply mt-6 inline-flex items-center justify-center rounded-lg bg-zinc-900 px-4 py-2 text-sm font-bold text-white hover:bg-primary transition-colors;
+                }
+            }
+        }
+
+        .pricing-diff {
+            @apply max-w-3xl mx-auto px-6 py-16;
+
+            h2 {
+                @apply text-3xl font-serif font-bold text-zinc-900;
+            }
+
+            p {
+                @apply mt-3 text-zinc-600;
+            }
+
+            ul {
+                @apply mt-5 space-y-2 text-sm text-zinc-700 list-disc pl-5;
+
+                strong {
+                    @apply text-zinc-900;
+                }
+            }
+        }
+
+        .pricing-waitlist {
+            @apply max-w-3xl mx-auto px-6 pb-20;
+        }
+    }
 }

@@ -5,6 +5,8 @@ import {Box, Download, RefreshCcw, Share2, X} from "lucide-react";
 import Button from "../../components/ui/Button";
 import {createProject, getProjectById} from "../../lib/puter.action";
 import {composeExport} from "../../lib/watermark";
+import {track} from "../../lib/analytics";
+import WaitlistForm from "../../components/WaitlistForm";
 import {ReactCompareSlider, ReactCompareSliderImage} from "react-compare-slider";
 
 const VisualizerId = () => {
@@ -42,6 +44,7 @@ const VisualizerId = () => {
 
         setIsExporting(true);
         setExportError(null);
+        track("download_clicked", { watermarked: !isSignedIn });
 
         let objectUrl: string | null = null;
 
@@ -95,9 +98,13 @@ const VisualizerId = () => {
         try {
             setIsProcessing(true);
             setRenderError(null);
+            track("render_started");
+
+            const startedAt = Date.now();
             const result = await generate3DView({ sourceImage: item.sourceImage });
 
             if(result.renderedImage) {
+                track("render_succeeded", { durationMs: Date.now() - startedAt });
                 setCurrentImage(result.renderedImage);
 
                 const updatedItem = {
@@ -116,10 +123,12 @@ const VisualizerId = () => {
                     setCurrentImage(saved.renderedImage || result.renderedImage);
                 }
             } else {
+                track("render_failed", { reason: "empty_response" });
                 setRenderError('The render came back empty. Please try again.');
             }
         } catch (error) {
             console.error('Generation failed: ', error)
+            track("render_failed", { reason: "exception" });
             setRenderError(
                 error instanceof Error
                     ? error.message
@@ -325,6 +334,16 @@ const VisualizerId = () => {
                         )}
                     </div>
                 </div>
+
+                {currentImage && (
+                    <div className="panel">
+                        <WaitlistForm
+                            source="result"
+                            title="Rendering a whole listing package?"
+                            description="Bulk upload, per-listing delivery and white-label output are what we are building next. Join the list and we will ask you what they should cost before we price them."
+                        />
+                    </div>
+                )}
             </section>
         </div>
     )

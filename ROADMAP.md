@@ -12,9 +12,10 @@ Phase 4 ships style variants and eye-level views — today's top-down output is 
 deliverable**) → architecture firms (**only after Phase 6 gives real geometry; their accuracy bar is
 a liability bar, and diffusion hallucinates walls**).
 
-**Why this segment, in one line:** the top-down 3D floor plan is not a novelty we must create demand
-for — it is an existing, named, already-purchased listing asset with an established price and a
-24–48 hour human turnaround we beat by three orders of magnitude.
+**Why this segment, in one line:** the top-down 3D floor plan is an existing, already-purchased listing
+asset ($40/storey at 48 h from BoxBrownie), and photographers are the reseller multiplier inside it.
+**But see the thesis below — the speed wedge is gone**; nine AI-native competitors already render in
+10–30 seconds and some are free, so we win on geometry fidelity and reseller workflow or not at all.
 
 **Cut from scope:** generic image→mesh, community/social feed, "2D→3D for anything" positioning,
 and any pitch to architects before Phase 6.
@@ -23,36 +24,95 @@ Each day is one sitting. Checkboxes are the unit of progress. Do not start a pha
 
 ---
 
-## Market thesis and its assumptions
+## Market thesis and competitive landscape
 
-The segment choice rests on four claims. The first three I am confident in from the product itself;
-the fourth is an **unverified estimate from background knowledge, not live research** — Day 4 checks it
-before a line of Phase 1 copy is written.
+**Researched 2026-10-06.** The earlier version of this section carried a low-confidence price estimate.
+It has been replaced with verified figures, and one finding **invalidates the original wedge**.
 
-| Claim | Confidence | How it is tested |
-| --- | --- | --- |
-| Today's only output is a top-down 3D floor plan, which **is** a real-estate listing asset and **is not** a designer's or architect's deliverable | High — read off our own build | Already true |
-| Photographers hold the input file already digitised (CubiCasa / Matterport scans); agents often hold only a PDF or a phone photo of paper | High | Day 7 DMs reveal file quality immediately |
-| Accuracy tolerance is lowest in real estate (marketing collateral nobody measures from) and highest in architecture (client deliverable, liability) | High | Complaint themes in Phase 1 |
-| Incumbents (CubiCasa, BoxBrownie, PlanUp, regional shops) charge roughly **$20–60 per plan at 24–48h turnaround** | **Low — estimate, must verify** | **Day 4 competitor price check** |
+### The human incumbents — our estimate was right, and the gap is real
 
-**Why the photographer, not the agent:**
+| Provider | Product | Price | Turnaround | Input |
+| --- | --- | --- | --- | --- |
+| BoxBrownie | 3D Full Color floor plan redraw | **US$40 / storey** | **48 h** | **"Almost any type of drawing — from a photo of builder's plans to a quick hand-drawn sketch"** |
+| BoxBrownie | 2D redraw (B&W / colour / textured) | $30–35 | 24 h | same |
+| BoxBrownie | Custom 3D floor plan | from $200 | 48 h+ | same |
+| The 2D3D Floor Plan Company | 3D floor plan, white-label wholesale | from **$79** | 24–48 h | existing plan |
 
-1. They already produce listing assets — we add an invoice line, we do not change behaviour.
-2. They already hold the plan as a file.
-3. **They are a multiplier**: one photographer serves 30–80 agents, so ten of them reach hundreds of listings.
-4. They are a business, so they buy monthly and resell at markup — which is exactly what the Studio tier and the API are for.
-5. They are **findable by name this afternoon**: local, searchable, directory-listed, concentrated in a few large Facebook groups. "Interior designers" are not.
+BoxBrownie's floor-plan *redraw* takes exactly our input and returns exactly our output, for **$40 at
+48 hours**. Against human services the speed and cost advantage is genuine and large.
 
-**The two risks, named:**
+### CubiCasa is not a competitor — different input, different job
 
-- **MLS / advertising misrepresentation.** Property advertising is regulated on accurate depiction, and hallucinated geometry in a listing asset is real exposure. Mitigation is standard industry practice — label every export *"artist's impression — not to scale"* — baked in from Day 4, not bolted on after a complaint. This is also the strongest long-run argument for Phase 6.
-- **The segment may be too small locally.** The multiplier cuts both ways: saturate it and growth stalls. Mitigation: individual agents are the broad market underneath, reachable with the same product and nearly the same copy.
+- **$22.99 (Base) / $29.99 (Plus) per scan**, 24 h turnaround, and **base 2D plans are now free and
+  unlimited in the US**.
+- But it requires a **5–10 minute phone walkthrough of the physical property**. It does not accept an
+  existing 2D plan image.
+- **Implication:** CubiCasa owns "I am standing in the house." We own "I have a plan file and no site
+  access" — archived listings, off-market and pre-construction stock, developer plans, anything already
+  drawn. That is a real segmentation, not a weakness. Their free 2D tier does, however, mean **never try
+  to sell a 2D plan.**
 
-**Falsification:** if the Day 4 price check shows incumbents at roughly $10 and sub-6-hour turnaround, the wedge is no longer price. Shift the pitch to turnaround and volume, and say so in the Day 5 copy.
+### The finding that breaks the original wedge: the AI-native category already exists
+
+At least nine products already do AI 2D-plan → 3D render, several with free tiers, most in 10–30 seconds:
+
+| Product | Speed | Pricing | Note |
+| --- | --- | --- | --- |
+| Rendair AI | seconds | **$19/mo / 500 credits (~$0.04 per render)**; $49/1500; $190/7500 | Credits never expire |
+| Vizcraft | ~10 s | **free** | "any clean 2D plan, blueprint or CAD export" |
+| Edensign | ~10 s | paid, **batch processing** | markets "ready for MLS" |
+| Drafto | ~30 s | subscription, "unlimited renders" | same pitch as ours, verbatim |
+| Archome AI | seconds | commercial licence | **explicitly targets "real estate photographers who resell to agents" — our beachhead** |
+| Artificial Studio, Dehome, floor-plan.ai, Homiwork | seconds | free / freemium | |
+
+**Three consequences, stated plainly:**
+
+1. **"60 seconds from a floor plan" is not a differentiator. It is table stakes.** The Day 5 headline cannot
+   rest on speed. Our speed advantage is only over *human* services, and the buyer comparing us to
+   Vizcraft sees parity at a price of zero.
+2. **The planned pricing is uncompetitive.** Pro at $29 / 100 renders is ~$0.29 per render against
+   Rendair's ~$0.04. Phase 3 pricing must be rebuilt around this, not around BoxBrownie's $40.
+3. **The beachhead is already contested** — Archome AI markets to precisely the reseller segment, and
+   white-labelling is already shipped by CubiCasa, The 2D3D Floor Plan Company and Halo Renders.
+
+### What is actually left to win on
+
+Speed is gone and price is a race to zero, so the defensible ground is narrower and more specific:
+
+- **Geometry fidelity.** Every diffusion-based competitor hallucinates walls, and our render prompt is
+  unusually strict about preserving plan geometry and stripping text. This is the one claim that is
+  *measurable and checkable* by a buyer: "does the render match the plan I gave you?" It is also the
+  claim that **Phase 6's CV pipeline would own outright**, because prompting cannot get there.
+- **Reseller workflow depth, not the render.** Bulk queue, per-listing folder naming, API into an
+  existing order form, white-label delivery, predictable per-listing cost. Competitors have one or two of
+  these; a complete reseller pipeline is a thinner field than a render endpoint.
+- **Compliance posture.** "Artist's impression — not to scale" on every export, and an explicit accuracy
+  stance, in a segment where advertising misrepresentation is regulated.
+
+**The strategic revision:** Phase 6 (real, CV-derived geometry) moves from "the moat, later, only if
+pulled" to **the actual differentiator, and the reason this company survives a price war**. It should be
+pulled forward the moment Phase 1 confirms that fidelity is what buyers complain about.
+
+### Risks, restated
+
+- **MLS / advertising misrepresentation.** Regulated accuracy in property advertising; hallucinated
+  geometry is real exposure. Mitigated by the label from Day 4, and argues again for Phase 6.
+- **Commodity collapse.** The render itself trends to free. If the only product is a render endpoint, there
+  is no business — hence workflow depth and fidelity, not speed.
+- **Segment too small locally.** The reseller multiplier cuts both ways; individual agents are the broad
+  market underneath.
+
+### Falsification, updated
+
+The original test was "does anyone want this". Nine funded competitors answer that: **yes**. The real
+question is now **"can we beat free?"** Phase 1 must therefore include a head-to-head: run the same five
+plans through Roomify, Vizcraft and Rendair, and have photographers pick blind. If we do not win on
+fidelity, we have no wedge at all and the plan needs rethinking before Phase 2 — not after.
+
+**Sources:** BoxBrownie pricing and floor-plan pages; CubiCasa pricing via G2 and product pages; Rendair
+AI pricing; Vizcraft, Drafto, Edensign, Archome AI product pages. Verified 2026-10-06.
 
 ---
-
 ## Phase 0 — Stabilize what exists (3 days)
 
 Goal: the current Puter build stops embarrassing us, so it can carry a demand test.
@@ -95,8 +155,9 @@ Goal: find out whether listing photographers will pay, before paying to rebuild 
 This is the most important phase in the document. Do not skip to Phase 2 because rebuilding is more fun.
 
 ### Day 4 — Competitor check, anonymous generation, legal label
-- [ ] **Verify the price assumption first (30 minutes, before any copy is written).** Get current per-plan price and turnaround for CubiCasa, BoxBrownie, PlanUp, and two regional shops in the target geography. Write the real numbers into the thesis table above
-- [ ] If they are at ~$10 and sub-6-hour turnaround, **the wedge is turnaround and volume, not price** — note that here and carry it into Day 5
+- [x] ~~Verify the price assumption~~ **Done 2026-10-06 — see the thesis section. BoxBrownie 3D = $40/storey at 48 h from the same input we take; CubiCasa needs an on-site scan so it is not a comparable; but nine AI-native competitors already render in 10–30 s, some free, and Rendair is ~$0.04/render.**
+- [ ] **Run the head-to-head, because speed is no longer the wedge.** Put the same 5 listing plans through Roomify, Vizcraft (free), Rendair and Drafto. Save all outputs side by side. Score each on: does the geometry match the plan, is all text removed, are rooms furnished sensibly
+- [ ] **If we do not clearly win on geometry fidelity, stop and say so here.** That is the only ground left to win on, and discovering it in Phase 1 is cheap. Do not proceed to Day 5 copy on an unverified quality claim
 - [ ] Allow upload + 1 generation with **no account** (localStorage counter; trivially bypassable, fine for now)
 - [ ] Watermark the anonymous render (canvas overlay, bottom-right)
 - [ ] **Burn "Artist's impression — not to scale" into every export, on every tier.** Advertising-misrepresentation exposure is real in this segment, and this is standard industry practice. Not a Phase 3 item
@@ -104,17 +165,19 @@ This is the most important phase in the document. Do not skip to Phase 2 because
 - [ ] Keep Puter auth as the account layer for now — just move it *after* the value, not before
 
 ### Day 5 — A landing page that sells one thing to one buyer
-- [ ] Headline commits to the segment: **"3D floor plans for every listing, in 60 seconds."** Kill "AI-first design environment" and anything about design environments or creativity
+- [ ] **Headline commits to the segment and to fidelity, not speed** — speed is table stakes now (competitors run 10–30 s, some free). Lead on the checkable claim: *"3D floor plans that actually match your plan."* Keep the turnaround as support, not as the promise. Kill "AI-first design environment" and anything about creativity
 - [ ] Hero = a real before/after of a **recognisably residential listing plan**, above the fold. Not an abstract or architectural-competition plan
 - [ ] Second fold speaks to the reseller, not the end client: *"Add it to your listing package. Costs you cents, resells at $40."*
 - [ ] 3–4 example listing plans users can click to try without uploading anything
 - [ ] Single CTA: upload. Remove every competing CTA
-- [ ] Say the turnaround number against the incumbent's, using the **verified** Day 4 figures
+- [ ] Compare against the **human** incumbent, where our advantage is real: *"$40 and two days at BoxBrownie, or now."* Do **not** invite comparison against the free AI tools on speed
+- [ ] If the Day 4 head-to-head produced a clear fidelity win, **put the side-by-side on the page**. It is the only defensible claim we have
 
 ### Day 6 — Instrumentation and priced waitlist
 - [ ] Analytics (PostHog or Plausible): `page_view`, `upload_started`, `render_started`, `render_succeeded`, `render_failed`, `download_clicked`, `signup_started`, `signup_completed`
 - [ ] Email capture on the result screen, pitched at the segment: *"Want bulk upload for a whole listing package? Join the list"*
-- [ ] A `/pricing` page framed the way the industry already buys — **per plan alongside the subscription**, e.g. ~$2/plan at volume against the $20–60 they pay now, plus the Studio tier for volume. **Price before building billing**; the clicks are the signal
+- [ ] A `/pricing` page framed the way the industry already buys — **per plan alongside the subscription**. Anchor against the **human** incumbent ($40/storey at BoxBrownie), not against Rendair's ~$0.04/render, and test ~$3–5/plan. **Price before building billing**; the clicks are the signal
+- [ ] Note in the page copy what the cheap AI tools do not do: bulk, per-listing delivery, white-label, API
 - [ ] Separate the waitlist by self-declared role (photographer / agent / designer / other). This tells you whether the beachhead choice was right
 
 ### Day 7 — Put it in front of photographers specifically
@@ -122,7 +185,7 @@ This is the most important phase in the document. Do not skip to Phase 2 because
 - [ ] **Channels, narrowed to the segment:** the large real-estate-photography Facebook groups, r/RealEstatePhotography, PFRE (Photography For Real Estate), a local real-estate-media Slack or WhatsApp group, LinkedIn. **Dropped: r/InteriorDesign and r/Architects — the product is not their deliverable until Phase 4 and Phase 6 respectively**
 - [ ] Build a named list of 50 listing photographers / media companies in the target geography. They are directory-listed and searchable; this is an afternoon of work
 - [ ] **DM 20 of them with their own recent listing's floor plan already rendered.** Highest-conversion action in the entire phase. Do not send a link to a generic demo
-- [ ] Ask each one the only question that matters: *"What do you pay for this today, and how long does it take?"* — this is how the Day 4 estimate becomes fact
+- [ ] Ask each one the two questions that matter: *"What do you pay for this today, and how long does it take?"* and **"Have you tried the free AI floor-plan tools, and why did you stop?"** — the second answer is the whole product strategy
 - [ ] Track: visit → render, render → email, pricing clicks, **and reply rate on the 20 DMs**
 
 **Exit criteria (be honest):** ≥100 renders by people you don't know, ≥15% render→email conversion, ≥10 pricing clicks, **and ≥3 photographers who say they would pay and tell you their current price**. Miss badly and the problem is positioning or buyer, not code. Re-run Phase 1 against individual agents (the broad market underneath) before touching Phase 2 — **not** against designers, who have no product yet.
@@ -189,7 +252,7 @@ not about a monthly allowance. Offer both, and lead with per-plan.
 - [ ] Pro $29/mo: 100 renders, clean, commercial license
 - [ ] Studio $99/mo: 500 renders, bulk upload, 3 seats, API — **the reseller tier; this is the plan the beachhead is expected to land on**
 - [ ] Checkout, customer portal, webhooks (`subscription.updated`, `invoice.paid`, `payment_failed`)
-- [ ] Sanity-check per-plan price against the **verified** Day 4 incumbent figures
+- [ ] Sanity-check per-plan price against **both** anchors: the human incumbent ($40/storey) above us, and Rendair at ~$0.04/render below us. We cannot win the bottom; price for workflow value, not per-render cost
 
 ### Day 18 — Paywall UX
 - [ ] Watermark on the free tier only, applied **server-side** (client-side is removable)
@@ -275,9 +338,15 @@ and eye-level views stay, because they are what unlocks the designer market late
 
 ---
 
-## Phase 6 — Real geometry (the moat, 2–3 months — only if pulled)
+## Phase 6 — Real geometry (the moat, 2–3 months — now the primary differentiator)
 
-Not day-planned. Start only when customers ask for measurements or CAD export — **or when advertising-accuracy complaints make hallucinated geometry a business problem rather than a cosmetic one**. That second trigger is the likelier one in real estate, and it is why this phase is the moat rather than a vanity project.
+> **Revised after the 2026-10-06 competitor research.** Speed is table stakes and per-render price is
+> racing to zero, so a prompt-based render endpoint is not a business. CV-derived geometry is the one
+> thing nine diffusion competitors cannot prompt their way to, and it is what turns "a render" into
+> measurements, quantities and CAD export. **Pull this forward the moment Phase 1 confirms fidelity is
+> what buyers complain about** — do not treat it as optional.
+
+Not day-planned. Three triggers, any one of which starts it: customers asking for measurements or CAD export; advertising-accuracy complaints making hallucinated geometry a business problem; **or the Phase 1 head-to-head showing that fidelity is the axis buyers judge on.** In a commoditised render market the third is the likeliest, and it arrives early.
 
 - [ ] CV pipeline: wall / door / window / room detection from the plan — **not** a diffusion prompt; diffusion hallucinates geometry
 - [ ] Procedural extrusion → dimensioned glTF
@@ -299,3 +368,5 @@ Expansion order, if it comes: elevations / facade → site plans & landscaping �
 5. Ship behind a flag, measure, then remove the flag.
 6. **Every export carries "artist's impression — not to scale", on every tier, forever.** It is a compliance line in a regulated advertising context, not a free-tier watermark.
 7. **Do not pitch designers before Phase 4 or architects before Phase 6.** Today's output is not their deliverable, and a bad first impression on a segment is expensive to undo.
+8. **Never compete on speed or per-render price.** Nine AI-native competitors are at 10–30 seconds and ~$0.04/render, some free. Compete on geometry fidelity, reseller workflow and compliance.
+9. **Never sell a 2D floor plan.** CubiCasa gives them away free and unlimited in the US.

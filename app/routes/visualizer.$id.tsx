@@ -4,12 +4,13 @@ import {generate3DView} from "../../lib/ai.action";
 import {Box, Download, RefreshCcw, Share2, X} from "lucide-react";
 import Button from "../../components/ui/Button";
 import {createProject, getProjectById} from "../../lib/puter.action";
+import {composeExport} from "../../lib/watermark";
 import {ReactCompareSlider, ReactCompareSliderImage} from "react-compare-slider";
 
 const VisualizerId = () => {
     const { id } = useParams();
     const navigate = useNavigate();
-    const { userId } = useOutletContext<AuthContext>()
+    const { userId, isSignedIn } = useOutletContext<AuthContext>()
 
     const hasInitialGenerated = useRef(false);
 
@@ -39,19 +40,37 @@ const VisualizerId = () => {
     const handleExport = async () => {
         if (!currentImage || isExporting) return;
 
-        // `download` is ignored for cross-origin URLs, which would navigate away
-        // instead of saving. Data URLs are same-origin and can be used directly.
-        if (currentImage.startsWith('data:')) {
-            triggerDownload(currentImage);
-            return;
-        }
-
         setIsExporting(true);
         setExportError(null);
 
         let objectUrl: string | null = null;
 
         try {
+            // Always burn the compliance label in. Watermark only while signed
+            // out, i.e. the free tier.
+            const composed = await composeExport(currentImage, {
+                watermark: !isSignedIn,
+            });
+
+            if (composed) {
+                objectUrl = URL.createObjectURL(composed);
+                triggerDownload(objectUrl);
+                return;
+            }
+
+            // Compositing failed (tainted canvas / no CORS headers). Fall back to
+            // the raw render rather than failing the export, but say so.
+            setExportError(
+                'Downloaded without the "not to scale" label — the label could not be applied to this render.'
+            );
+
+            // `download` is ignored for cross-origin URLs, which would navigate
+            // away instead of saving. Data URLs can be used directly.
+            if (currentImage.startsWith('data:')) {
+                triggerDownload(currentImage);
+                return;
+            }
+
             const response = await fetch(currentImage);
             if (!response.ok) throw new Error(`Download failed: ${response.status}`);
 

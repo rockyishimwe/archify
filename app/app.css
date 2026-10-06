@@ -191,6 +191,38 @@
         }
     }
 
+    .pending-plan {
+        @apply w-full flex flex-col md:flex-row items-center gap-6 text-left;
+
+        .pending-preview {
+            @apply w-full md:w-64 h-40 object-contain rounded-xl border border-zinc-200 bg-white p-2;
+        }
+
+        .pending-copy {
+            @apply flex-1;
+
+            h4 {
+                @apply text-lg font-serif font-bold text-black mb-2;
+            }
+
+            p {
+                @apply text-sm text-zinc-500 leading-relaxed mb-4;
+            }
+
+            .pending-error {
+                @apply text-xs font-medium text-red-600 mb-3;
+            }
+
+            .pending-actions {
+                @apply flex flex-col sm:flex-row sm:items-center gap-3;
+
+                .pending-cancel {
+                    @apply text-xs text-zinc-400 hover:text-black transition-colors;
+                }
+            }
+        }
+    }
+
     .upload {
         @apply w-full;
 

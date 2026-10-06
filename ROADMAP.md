@@ -183,12 +183,32 @@ photographers will pay for that. **The most important phase in the document.**
 - [ ] **If we do not clearly win on fidelity, stop and write that here.** It is the only ground left. Do not write Day 6 copy on an unverified quality claim
 - [ ] Tune `ROOMIFY_RENDER_PROMPT` against the five failure modes and re-score. Prompt work is the cheapest fidelity gain available
 
-### Day 5 — Anonymous generation, watermark, compliance label
-- [ ] Allow upload + 1 generation with **no account** (localStorage counter; trivially bypassable, fine for now)
-- [ ] Watermark the anonymous render (canvas overlay, bottom-right)
-- [ ] **Burn "Artist's impression — not to scale" into every export, on every tier.** Advertising-misrepresentation exposure is real here; this is a compliance line, not a free-tier limitation
-- [ ] Gate only the *clean download* and the *second render* behind signup
-- [ ] Keep Puter auth as the account layer — just move it *after* the value, not before
+### Day 5 — Open the funnel, watermark, compliance label
+
+> **Blocker found and verified 2026-10-06.** True no-account generation is **impossible on Puter**.
+> `@heyputer/puter.js` `src/lib/utils.js:318` forces `puter.ui.authenticateWithPuter()` before any
+> driver call when there is no auth token, and `txt2img` goes through that path. So anonymous
+> *rendering* moves to **Phase 2 Day 10–11**, where generation becomes server-side under our own API
+> key — the only place it can work. Everything achievable today was done instead.
+
+- [x] **Open the upload funnel.** Uploading no longer requires an account: the dropzone is live for
+      everyone, the file is validated and previewed, and the account is asked for **at the render
+      step** instead of before the visitor can click anything. This is the achievable half of "move
+      auth after the value"
+- [x] `AuthRequiredModal` repurposed to the render step on Home, with copy explaining *why* an account
+      is needed (renders live in the visitor's own Puter account)
+- [x] Uploaded plan is held in memory with a "Render this plan" / "Choose a different plan" card, and
+      survives a cancelled sign-in rather than being thrown away
+- [x] **Compliance label burned into every export, on every tier** — `lib/watermark.ts` composites
+      `ARTIST'S IMPRESSION — NOT TO SCALE` onto the render via canvas before download
+- [x] Watermark applied to signed-out exports only (the free tier), diagonal, same compositing pass
+- [x] Export falls back to the unlabelled render **and says so** if the canvas is tainted, rather than
+      failing the download silently
+- [ ] **Moved to Phase 2:** anonymous generation, the free-render counter, and gating the clean
+      download behind signup. All three need server-side generation
+
+**Note:** client-side compositing is removable by a determined user. Accepted for now; **Phase 3 Day 18
+moves watermarking server-side.** The label is cheap insurance, not DRM.
 
 ### Day 6 — A landing page that sells the checkable claim
 - [ ] **Headline leads on fidelity, not speed:** *"3D floor plans that actually match your plan."* Speed is support, never the promise
@@ -238,6 +258,9 @@ R2/S3 media, server-side generation.
 
 ### Day 10–11 — Server-side generation
 - [ ] Move `generate3DView` behind a server action. **No AI call from the browser, ever again**
+- [ ] **Inherited from Day 5 (blocked there):** anonymous generation — 1 free render with no account,
+      a localStorage counter, and the clean download gated behind signup. Only possible once
+      generation runs under our own API key instead of the visitor's Puter session
 - [ ] Job queue + status polling (renders take 10–40 s; do not hold a request open)
 - [ ] Per-user rate limit and a hard daily cost ceiling
 - [ ] Record every render with its cost — this is margin visibility

@@ -7,6 +7,13 @@ export const ACCEPTED_IMAGE_EXTENSIONS = ".jpg,.jpeg,.png,.webp";
 export const MAX_FILE_SIZE_MB = 10;
 export const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
 
+// Compliance
+// Burned into every export on every tier. Property advertising is regulated on
+// accurate depiction and an AI render is an impression, not a survey. This is a
+// compliance line, not a free-tier limitation — see ROADMAP standing rule 6.
+export const COMPLIANCE_LABEL = "ARTIST'S IMPRESSION — NOT TO SCALE";
+export const WATERMARK_TEXT = "ROOMIFY";
+
 // Timing Constants (in milliseconds)
 export const PROGRESS_INCREMENT = 15;
 export const REDIRECT_DELAY_MS = 600;

@@ -1,7 +1,6 @@
 import {type ChangeEvent, type DragEvent, useCallback, useEffect, useRef, useState} from 'react'
 import {useOutletContext} from "react-router";
 import {AlertCircle, CheckCircle2, ImageIcon, UploadIcon} from "lucide-react";
-import AuthRequiredModal from "./AuthRequiredModal";
 import {
     ACCEPTED_IMAGE_EXTENSIONS,
     ACCEPTED_IMAGE_TYPES,
@@ -26,23 +25,12 @@ const Upload = ({ onComplete, className = '' }: UploadProps) => {
     const [isDragging, setIsDragging] = useState(false);
     const [progress, setProgress] = useState(0);
     const [error, setError] = useState<string | null>(null);
-    const [isAuthPromptOpen, setIsAuthPromptOpen] = useState(false);
 
     const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
     const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
     const isMountedRef = useRef(true);
 
-    const { isSignedIn, signIn } = useOutletContext<AuthContext>();
-
-    const handleSignIn = async () => {
-        setIsAuthPromptOpen(false);
-        try {
-            await signIn();
-        } catch (e) {
-            console.error(`Puter sign in failed: ${e}`);
-            setError("Sign in failed. Please try again.");
-        }
-    };
+    const { isSignedIn } = useOutletContext<AuthContext>();
 
     const clearTimers = useCallback(() => {
         if (intervalRef.current) {
@@ -72,8 +60,6 @@ const Upload = ({ onComplete, className = '' }: UploadProps) => {
     }, [clearTimers]);
 
     const processFile = useCallback((nextFile: File) => {
-        if (!isSignedIn) return;
-
         const validationError = validateFile(nextFile);
         if (validationError) {
             reset(validationError);
@@ -126,11 +112,10 @@ const Upload = ({ onComplete, className = '' }: UploadProps) => {
         };
 
         reader.readAsDataURL(nextFile);
-    }, [isSignedIn, onComplete, reset, clearTimers]);
+    }, [onComplete, reset, clearTimers]);
 
     const handleDragOver = (e: DragEvent) => {
         e.preventDefault();
-        if (!isSignedIn) return;
         setIsDragging(true);
     };
 
@@ -142,15 +127,11 @@ const Upload = ({ onComplete, className = '' }: UploadProps) => {
         e.preventDefault();
         setIsDragging(false);
 
-        if (!isSignedIn) return;
-
         const droppedFile = e.dataTransfer.files[0];
         if (droppedFile) processFile(droppedFile);
     };
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-        if (!isSignedIn) return;
-
         const selectedFile = e.target.files?.[0];
         if (selectedFile) processFile(selectedFile);
 
@@ -166,13 +147,11 @@ const Upload = ({ onComplete, className = '' }: UploadProps) => {
                     onDragOver={handleDragOver}
                     onDragLeave={handleDragLeave}
                     onDrop={handleDrop}
-                    onClick={!isSignedIn ? () => setIsAuthPromptOpen(true) : undefined}
                 >
                     <input
                         type="file"
                         className="drop-input"
                         accept={ACCEPTED_IMAGE_EXTENSIONS}
-                        disabled={!isSignedIn}
                         onChange={handleChange}
                     />
 
@@ -180,11 +159,7 @@ const Upload = ({ onComplete, className = '' }: UploadProps) => {
                         <div className="drop-icon">
                             <UploadIcon size={20} />
                         </div>
-                        <p>
-                            {isSignedIn
-                                ? "Click to upload or just drag and drop"
-                                : "Sign in to upload a floor plan"}
-                        </p>
+                        <p>Click to upload or just drag and drop</p>
                         <p className="help">
                             JPG, PNG, or WebP. Maximum {MAX_FILE_SIZE_MB} MB.
                         </p>
@@ -207,7 +182,9 @@ const Upload = ({ onComplete, className = '' }: UploadProps) => {
                             <div className="bar" style={{ width: `${progress}%` }} />
 
                             <p className="status-text">
-                                {progress < 100 ? 'Analyzing Floor Plan...' : 'Redirecting...'}
+                                {progress < 100
+                                    ? 'Analyzing Floor Plan...'
+                                    : isSignedIn ? 'Rendering...' : 'Ready to render'}
                             </p>
                         </div>
                     </div>
@@ -220,12 +197,6 @@ const Upload = ({ onComplete, className = '' }: UploadProps) => {
                     <span>{error}</span>
                 </p>
             )}
-
-            <AuthRequiredModal
-                isOpen={isAuthPromptOpen}
-                onConfirm={handleSignIn}
-                onCancel={() => setIsAuthPromptOpen(false)}
-            />
         </div>
     )
 }

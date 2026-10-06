@@ -2,6 +2,8 @@ import type { Route } from "./+types/home";
 import Navbar from "../../components/Navbar";
 import {ArrowRight, ArrowUpRight, Clock, Layers} from "lucide-react";
 import Upload from "../../components/Upload";
+import Button from "../../components/ui/Button";
+import AuthRequiredModal from "../../components/AuthRequiredModal";
 import {useNavigate, useOutletContext} from "react-router";
 import {useEffect, useRef, useState} from "react";
 import {createProject, getProjects} from "../../lib/puter.action";
@@ -35,11 +37,17 @@ export default function Home() {
     const [isLoadingProjects, setIsLoadingProjects] = useState(true);
     const isCreatingProjectRef = useRef(false);
 
-    const { isSignedIn } = useOutletContext<AuthContext>();
+    const { isSignedIn, signIn } = useOutletContext<AuthContext>();
 
-    const handleUploadComplete = async (base64Image: string) => {
+    // A plan uploaded while signed out. Held in memory until the visitor signs
+    // in: Puter forces authentication before any AI call, so we cannot render
+    // anonymously on this stack (see ROADMAP Phase 2 Day 10-11).
+    const [pendingImage, setPendingImage] = useState<string | null>(null);
+    const [isAuthPromptOpen, setIsAuthPromptOpen] = useState(false);
+    const [pendingError, setPendingError] = useState<string | null>(null);
+
+    const createAndOpen = async (base64Image: string) => {
         try {
-
             if(isCreatingProjectRef.current) return false;
             isCreatingProjectRef.current = true;
             const newId = Date.now().toString();
@@ -66,6 +74,44 @@ export default function Home() {
             return true;
         } finally {
             isCreatingProjectRef.current = false;
+        }
+    }
+
+    const handleUploadComplete = async (base64Image: string) => {
+        // Uploading is open to everyone; the account is asked for at the moment
+        // of value instead of before it.
+        if (!isSignedIn) {
+            setPendingImage(base64Image);
+            setPendingError(null);
+            return true;
+        }
+
+        return createAndOpen(base64Image);
+    }
+
+    const handleRenderPending = async () => {
+        if (!pendingImage) return;
+
+        setIsAuthPromptOpen(false);
+        setPendingError(null);
+
+        try {
+            const signedIn = await signIn();
+            if (!signedIn) {
+                setPendingError("Sign in was cancelled. Your plan is still here.");
+                return;
+            }
+
+            const created = await createAndOpen(pendingImage);
+            if (!created) {
+                setPendingError("We could not start your project. Please try again.");
+                return;
+            }
+
+            setPendingImage(null);
+        } catch (e) {
+            console.error(`Puter sign in failed: ${e}`);
+            setPendingError("Sign in failed. Please try again.");
         }
     }
 
@@ -119,7 +165,41 @@ export default function Home() {
                           <p>Supports JPG, PNG, and WebP up to {MAX_FILE_SIZE_MB} MB</p>
                       </div>
 
-                      <Upload onComplete={handleUploadComplete} />
+                      {pendingImage ? (
+                          <div className="pending-plan">
+                              <img src={pendingImage} alt="Your floor plan" className="pending-preview" />
+
+                              <div className="pending-copy">
+                                  <h4>Your plan is ready to render</h4>
+                                  <p>
+                                      Renders are stored in your own Puter account, so you keep
+                                      every file. Creating one is free.
+                                  </p>
+
+                                  {pendingError && (
+                                      <p className="pending-error" role="alert">{pendingError}</p>
+                                  )}
+
+                                  <div className="pending-actions">
+                                      <Button onClick={() => setIsAuthPromptOpen(true)}>
+                                          Render this plan
+                                      </Button>
+                                      <button
+                                          type="button"
+                                          className="pending-cancel"
+                                          onClick={() => {
+                                              setPendingImage(null);
+                                              setPendingError(null);
+                                          }}
+                                      >
+                                          Choose a different plan
+                                      </button>
+                                  </div>
+                              </div>
+                          </div>
+                      ) : (
+                          <Upload onComplete={handleUploadComplete} />
+                      )}
                   </div>
               </div>
           </section>
@@ -176,6 +256,15 @@ export default function Home() {
                   </div>
               </div>
           </section>
+
+          <AuthRequiredModal
+              isOpen={isAuthPromptOpen}
+              onConfirm={handleRenderPending}
+              onCancel={() => setIsAuthPromptOpen(false)}
+              title="Create a free account to render"
+              description="Roomify renders run on your own Puter account, so your plans and renders stay yours. It takes a few seconds and costs nothing."
+              confirmLabel="Continue with Puter"
+          />
       </div>
   )
 }

@@ -19,16 +19,52 @@ const VisualizerId = () => {
     const [isProcessing, setIsProcessing] = useState(false);
     const [currentImage, setCurrentImage] = useState<string | null>(null);
 
-    const handleBack = () => navigate('/');
-    const handleExport = () => {
-        if (!currentImage) return;
+    const [isExporting, setIsExporting] = useState(false);
+    const [exportError, setExportError] = useState<string | null>(null);
 
+    const handleBack = () => navigate('/');
+
+    const triggerDownload = (href: string) => {
         const link = document.createElement('a');
-        link.href = currentImage;
+        link.href = href;
         link.download = `roomify-${id || 'design'}.png`;
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
+    };
+
+    const handleExport = async () => {
+        if (!currentImage || isExporting) return;
+
+        // `download` is ignored for cross-origin URLs, which would navigate away
+        // instead of saving. Data URLs are same-origin and can be used directly.
+        if (currentImage.startsWith('data:')) {
+            triggerDownload(currentImage);
+            return;
+        }
+
+        setIsExporting(true);
+        setExportError(null);
+
+        let objectUrl: string | null = null;
+
+        try {
+            const response = await fetch(currentImage);
+            if (!response.ok) throw new Error(`Download failed: ${response.status}`);
+
+            objectUrl = URL.createObjectURL(await response.blob());
+            triggerDownload(objectUrl);
+        } catch (error) {
+            console.error('Export failed: ', error);
+            setExportError('Could not download the render. Please try again.');
+        } finally {
+            // Revoking synchronously can cancel the download that was just started.
+            if (objectUrl) {
+                const url = objectUrl;
+                setTimeout(() => URL.revokeObjectURL(url), 10_000);
+            }
+            setIsExporting(false);
+        }
     }
 
     const runGeneration = async (item: DesignItem) => {
@@ -137,9 +173,10 @@ const VisualizerId = () => {
                                 size="sm"
                                 onClick={handleExport}
                                 className="export"
-                                disabled={!currentImage}
+                                disabled={!currentImage || isExporting}
                             >
-                                <Download className="w-4 h-4 mr-2" /> Export
+                                <Download className="w-4 h-4 mr-2" />
+                                {isExporting ? 'Preparing...' : 'Export'}
                             </Button>
                             <Button size="sm" onClick={() => {}} className="share">
                                 <Share2 className="w-4 h-4 mr-2" />
@@ -147,6 +184,10 @@ const VisualizerId = () => {
                             </Button>
                         </div>
                     </div>
+
+                    {exportError && (
+                        <p className="panel-error" role="alert">{exportError}</p>
+                    )}
 
                     <div className={`render-area ${isProcessing ? 'is-processing': ''}`}>
                         {currentImage ? (

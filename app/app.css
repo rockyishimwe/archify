@@ -194,6 +194,10 @@
     .upload {
         @apply w-full;
 
+        .upload-error {
+            @apply mt-3 flex items-center justify-center gap-2 text-xs font-medium text-red-600;
+        }
+
         .dropzone {
             @apply relative h-48 rounded-xl border-2 border-dashed transition-all duration-300 flex flex-col items-center justify-center cursor-pointer bg-zinc-50 border-zinc-200 hover:border-zinc-300 hover:bg-zinc-100;
 
@@ -292,6 +296,10 @@
 
         .content {
             @apply w-full max-w-6xl grid grid-cols-1 gap-6;
+        }
+
+        .panel-error {
+            @apply mx-6 mb-4 rounded-md bg-red-50 border border-red-100 px-3 py-2 text-xs font-medium text-red-600;
         }
 
         .panel {

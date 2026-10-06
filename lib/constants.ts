@@ -7,6 +7,13 @@ export const STORAGE_PATHS = {
     RENDERS: "roomify/renders",
 } as const;
 
+// Upload Constraints
+// Single source of truth: used for validation, the `accept` attribute, and all UI copy.
+export const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp"] as const;
+export const ACCEPTED_IMAGE_EXTENSIONS = ".jpg,.jpeg,.png,.webp";
+export const MAX_FILE_SIZE_MB = 10;
+export const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
+
 // Timing Constants (in milliseconds)
 export const SHARE_STATUS_RESET_DELAY_MS = 1500;
 export const PROGRESS_INCREMENT = 15;

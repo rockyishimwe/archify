@@ -5,6 +5,7 @@ import Upload from "../../components/Upload";
 import {useNavigate} from "react-router";
 import {useEffect, useRef, useState} from "react";
 import {createProject, getProjects} from "../../lib/puter.action";
+import {MAX_FILE_SIZE_MB} from "../../lib/constants";
 
 const TITLE = "Roomify — Photoreal renders from floor plans, in 60 seconds";
 const DESCRIPTION =
@@ -56,13 +57,8 @@ export default function Home() {
 
             setProjects((prev) => [saved, ...prev]);
 
-            navigate(`/visualizer/${newId}`, {
-                state: {
-                    initialImage: saved.sourceImage,
-                    initialRendered: saved.renderedImage || null,
-                    name
-                }
-            });
+            // The visualizer loads the project by id, so no navigation state is needed.
+            navigate(`/visualizer/${newId}`);
 
             return true;
         } finally {
@@ -107,7 +103,7 @@ export default function Home() {
                           </div>
 
                           <h3>Upload your floor plan</h3>
-                          <p>Supports JPG, PNG, formats up to 10MB</p>
+                          <p>Supports JPG, PNG, and WebP up to {MAX_FILE_SIZE_MB} MB</p>
                       </div>
 
                       <Upload onComplete={handleUploadComplete} />

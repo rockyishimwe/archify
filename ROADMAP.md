@@ -23,11 +23,11 @@ Rule: **only fix what survives the re-platform.** Skip anything coupled to Puter
 - [x] Decide the name once — **Roomify** (was split with "Archify" in the README) — README, `package.json`, and UI now agree. The GitHub repo stays `rockyishimwe/archify`; only the product name is unified.
 
 ### Day 2 — Upload + export correctness
-- [ ] `components/Upload.tsx` — delete the local `UploadProps` shadow; use the global type and honor the `boolean` return so failures surface
-- [ ] `components/Upload.tsx` — clear existing interval/timeout at the top of `processFile` (a second file currently overlaps timers)
-- [ ] `components/Upload.tsx` — one size limit (10MB), enforced in code, matching all copy; align `accept` with `handleDrop` (both allow jpg/png/webp)
-- [ ] `app/routes/visualizer.$id.tsx` — fix `handleExport`: fetch → blob → object URL → revoke. Cross-origin `puter.site` URLs currently navigate instead of downloading
-- [ ] `app/routes/home.tsx` — drop the dead, misspelled `initialRendered` navigation state
+- [x] `components/Upload.tsx` — delete the local `UploadProps` shadow; use the global type and honor the `boolean` return so failures surface
+- [x] `components/Upload.tsx` — clear existing interval/timeout at the top of `processFile` (a second file currently overlaps timers)
+- [x] `components/Upload.tsx` — one size limit (10MB), enforced in code, matching all copy; align `accept` with `handleDrop` (both allow jpg/png/webp)
+- [x] `app/routes/visualizer.$id.tsx` — fix `handleExport`: fetch → blob → object URL → revoke. Cross-origin `puter.site` URLs currently navigate instead of downloading
+- [x] `app/routes/home.tsx` — drop the dead, misspelled `initialRendered` navigation state
 
 ### Day 3 — Error states and dead code
 - [ ] Visualizer: real failure UI for `generate3DView` — message + Retry button, not a blank canvas

@@ -18,6 +18,33 @@ export const fetchAsDataUrl = async (url: string): Promise<string> => {
   });
 };
 
+/**
+ * puter.ai.txt2img is documented as resolving to an <img> element, but the
+ * gateway has also been seen returning a bare URL string or a wrapper object.
+ * Probe the known shapes rather than asserting one, so an unexpected response
+ * surfaces as an error instead of silently becoming `undefined`.
+ */
+const extractImageUrl = (response: unknown): string | null => {
+    if (!response) return null;
+
+    if (typeof response === "string") return response || null;
+
+    if (typeof HTMLImageElement !== "undefined" && response instanceof HTMLImageElement) {
+        return response.src || null;
+    }
+
+    if (typeof response === "object") {
+        const candidate = response as Record<string, unknown>;
+
+        for (const key of ["src", "url", "image_url", "output", "data"]) {
+            const value = candidate[key];
+            if (typeof value === "string" && value) return value;
+        }
+    }
+
+    return null;
+};
+
 export const generate3DView = async ({ sourceImage }: Generate3DViewParams) => {
     const dataUrl = sourceImage.startsWith('data:')
         ? sourceImage
@@ -36,9 +63,12 @@ export const generate3DView = async ({ sourceImage }: Generate3DViewParams) => {
         ratio: { w: 1024, h: 1024 },
     });
 
-    const rawImageUrl = (response as HTMLImageElement).src ?? null;
+    const rawImageUrl = extractImageUrl(response);
 
-    if (!rawImageUrl) return { renderedImage: null, renderedPath: undefined };
+    if (!rawImageUrl) {
+        console.error('Unrecognised txt2img response shape', response);
+        throw new Error('The model did not return an image. Please try again.');
+    }
 
     const renderedImage = rawImageUrl.startsWith('data:')
     ? rawImageUrl : await fetchAsDataUrl(rawImageUrl);

@@ -267,6 +267,22 @@
         }
     }
 
+    .empty-state {
+        @apply flex flex-col items-center justify-center text-center px-6 py-16;
+
+        h2 {
+            @apply text-2xl font-serif font-bold text-black mb-2;
+        }
+
+        p {
+            @apply max-w-md text-sm text-zinc-500 mb-6 leading-relaxed;
+        }
+
+        .cta {
+            @apply inline-flex items-center justify-center rounded-md px-6 py-3 text-xs uppercase tracking-wide font-bold bg-primary text-white hover:bg-[#ea580c] shadow-sm transition-colors;
+        }
+    }
+
     .visualizer {
         @apply min-h-screen bg-background pt-6 pb-10 px-4 md:px-6 flex flex-col items-center font-sans relative;
 
@@ -300,6 +316,10 @@
 
         .panel-error {
             @apply mx-6 mb-4 rounded-md bg-red-50 border border-red-100 px-3 py-2 text-xs font-medium text-red-600;
+
+            &.is-actionable {
+                @apply flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3;
+            }
         }
 
         .panel {

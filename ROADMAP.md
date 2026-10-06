@@ -30,14 +30,15 @@ Rule: **only fix what survives the re-platform.** Skip anything coupled to Puter
 - [x] `app/routes/home.tsx` — drop the dead, misspelled `initialRendered` navigation state
 
 ### Day 3 — Error states and dead code
-- [ ] Visualizer: real failure UI for `generate3DView` — message + Retry button, not a blank canvas
-- [ ] Visualizer: 404 state for an unknown `:id`
-- [ ] Build the missing `AuthRequiredModal` (type + `.auth-modal` CSS already exist) so signed-out users get a prompt, not a dead dropzone
-- [ ] `lib/ai.action.ts` — runtime guard on the `txt2img` response shape instead of a blind `as HTMLImageElement`
-- [ ] `lib/constants.ts` — delete the 7 unused exports
-- [ ] `type.d.ts` — delete `AppStatus` (ambient enum; crashes if ever used at runtime), `VisualizerProps`, `VisualizerLocationState`, `CardProps`
-- [ ] `lib/puter.worker.js` — stop overwriting `isPublic: true` on list; sort by `timestamp` desc
-- [ ] `npm run typecheck && npm run build` clean; commit
+- [x] Visualizer: real failure UI for `generate3DView` — message + Retry button, not a blank canvas
+- [x] Visualizer: 404 state for an unknown `:id`
+- [x] Build the missing `AuthRequiredModal` (type + `.auth-modal` CSS already exist) so signed-out users get a prompt, not a dead dropzone
+- [x] `lib/ai.action.ts` — runtime guard on the `txt2img` response shape instead of a blind `as HTMLImageElement`
+- [x] `lib/constants.ts` — delete the 7 unused exports
+- [x] `type.d.ts` — delete `AppStatus` (ambient enum; crashes if ever used at runtime), `VisualizerProps`, `VisualizerLocationState`, `CardProps`
+- [x] `lib/puter.worker.js` — stop overwriting `isPublic: true` on list; sort by `timestamp` desc
+- [x] `npm run typecheck && npm run build` clean; commit
+- [x] *(folded in)* empty-gallery state on home; removed the `ButtonProps` duplicate shadow and the orphaned `RenderCompletePayload`
 
 **Exit:** a stranger can sign in, upload, render, download, and hit no dead link or silent failure.
 

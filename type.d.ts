@@ -33,40 +33,6 @@ interface DesignConfig {
     style: string;
 }
 
-enum AppStatus {
-    IDLE = "IDLE",
-    UPLOADING = "UPLOADING",
-    PROCESSING = "PROCESSING",
-    READY = "READY",
-}
-
-type RenderCompletePayload = {
-    renderedImage: string;
-    renderedPath?: string;
-};
-
-type VisualizerLocationState = {
-    initialImage?: string;
-    initialRender?: string | null;
-    ownerId?: string | null;
-    name?: string | null;
-    sharedBy?: string | null;
-};
-
-interface VisualizerProps {
-    onBack: () => void;
-    initialImage: string | null;
-    onRenderComplete?: (payload: RenderCompletePayload) => void;
-    onShare?: (image: string) => Promise<void> | void;
-    onUnshare?: (image: string) => Promise<void> | void;
-    projectName?: string;
-    projectId?: string;
-    initialRender?: string | null;
-    isPublic?: boolean;
-    sharedBy?: string | null;
-    canUnshare?: boolean;
-}
-
 interface UploadProps {
     onComplete: (base64File: string) => Promise<boolean | void> | boolean | void;
     className?: string;
@@ -76,13 +42,6 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     variant?: "primary" | "secondary" | "ghost" | "outline";
     size?: "sm" | "md" | "lg";
     fullWidth?: boolean;
-}
-
-interface CardProps {
-    children: React.ReactNode;
-    className?: string;
-    title?: string;
-    action?: React.ReactNode;
 }
 
 type AuthContext = {

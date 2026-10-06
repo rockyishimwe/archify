@@ -1,6 +1,7 @@
 import {type ChangeEvent, type DragEvent, useCallback, useEffect, useRef, useState} from 'react'
 import {useOutletContext} from "react-router";
 import {AlertCircle, CheckCircle2, ImageIcon, UploadIcon} from "lucide-react";
+import AuthRequiredModal from "./AuthRequiredModal";
 import {
     ACCEPTED_IMAGE_EXTENSIONS,
     ACCEPTED_IMAGE_TYPES,
@@ -25,12 +26,23 @@ const Upload = ({ onComplete, className = '' }: UploadProps) => {
     const [isDragging, setIsDragging] = useState(false);
     const [progress, setProgress] = useState(0);
     const [error, setError] = useState<string | null>(null);
+    const [isAuthPromptOpen, setIsAuthPromptOpen] = useState(false);
 
     const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
     const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
     const isMountedRef = useRef(true);
 
-    const { isSignedIn } = useOutletContext<AuthContext>();
+    const { isSignedIn, signIn } = useOutletContext<AuthContext>();
+
+    const handleSignIn = async () => {
+        setIsAuthPromptOpen(false);
+        try {
+            await signIn();
+        } catch (e) {
+            console.error(`Puter sign in failed: ${e}`);
+            setError("Sign in failed. Please try again.");
+        }
+    };
 
     const clearTimers = useCallback(() => {
         if (intervalRef.current) {
@@ -154,6 +166,7 @@ const Upload = ({ onComplete, className = '' }: UploadProps) => {
                     onDragOver={handleDragOver}
                     onDragLeave={handleDragLeave}
                     onDrop={handleDrop}
+                    onClick={!isSignedIn ? () => setIsAuthPromptOpen(true) : undefined}
                 >
                     <input
                         type="file"
@@ -170,7 +183,7 @@ const Upload = ({ onComplete, className = '' }: UploadProps) => {
                         <p>
                             {isSignedIn
                                 ? "Click to upload or just drag and drop"
-                                : "Sign in or sign up with Puter to upload"}
+                                : "Sign in to upload a floor plan"}
                         </p>
                         <p className="help">
                             JPG, PNG, or WebP. Maximum {MAX_FILE_SIZE_MB} MB.
@@ -207,6 +220,12 @@ const Upload = ({ onComplete, className = '' }: UploadProps) => {
                     <span>{error}</span>
                 </p>
             )}
+
+            <AuthRequiredModal
+                isOpen={isAuthPromptOpen}
+                onConfirm={handleSignIn}
+                onCancel={() => setIsAuthPromptOpen(false)}
+            />
         </div>
     )
 }

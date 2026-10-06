@@ -1,12 +1,5 @@
 export const PUTER_WORKER_URL = import.meta.env.VITE_PUTER_WORKER_URL || "";
 
-// Storage Paths
-export const STORAGE_PATHS = {
-    ROOT: "roomify",
-    SOURCES: "roomify/sources",
-    RENDERS: "roomify/renders",
-} as const;
-
 // Upload Constraints
 // Single source of truth: used for validation, the `accept` attribute, and all UI copy.
 export const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp"] as const;
@@ -15,21 +8,9 @@ export const MAX_FILE_SIZE_MB = 10;
 export const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
 
 // Timing Constants (in milliseconds)
-export const SHARE_STATUS_RESET_DELAY_MS = 1500;
 export const PROGRESS_INCREMENT = 15;
 export const REDIRECT_DELAY_MS = 600;
 export const PROGRESS_INTERVAL_MS = 100;
-export const PROGRESS_STEP = 5;
-
-// UI Constants
-export const GRID_OVERLAY_SIZE = "60px 60px";
-export const GRID_COLOR = "#3B82F6";
-
-// HTTP Status Codes
-export const UNAUTHORIZED_STATUSES = [401, 403];
-
-// Image Dimensions
-export const IMAGE_RENDER_DIMENSION = 1024;
 
 export const ROOMIFY_RENDER_PROMPT = `
 TASK: Convert the input 2D floor plan into a **photorealistic, top‑down 3D architectural render**.

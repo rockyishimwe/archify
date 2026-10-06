@@ -2,7 +2,7 @@ import type { Route } from "./+types/home";
 import Navbar from "../../components/Navbar";
 import {ArrowRight, ArrowUpRight, Clock, Layers} from "lucide-react";
 import Upload from "../../components/Upload";
-import {useNavigate} from "react-router";
+import {useNavigate, useOutletContext} from "react-router";
 import {useEffect, useRef, useState} from "react";
 import {createProject, getProjects} from "../../lib/puter.action";
 import {MAX_FILE_SIZE_MB} from "../../lib/constants";
@@ -32,7 +32,10 @@ export function meta({}: Route.MetaArgs) {
 export default function Home() {
     const navigate = useNavigate();
     const [projects, setProjects] = useState<DesignItem[]>([]);
+    const [isLoadingProjects, setIsLoadingProjects] = useState(true);
     const isCreatingProjectRef = useRef(false);
+
+    const { isSignedIn } = useOutletContext<AuthContext>();
 
     const handleUploadComplete = async (base64Image: string) => {
         try {
@@ -67,14 +70,24 @@ export default function Home() {
     }
 
     useEffect(() => {
-        const fetchProjects = async () => {
-            const items = await getProjects();
+        let isMounted = true;
 
-            setProjects(items)
+        const fetchProjects = async () => {
+            try {
+                const items = await getProjects();
+                if (!isMounted) return;
+                setProjects(items);
+            } finally {
+                if (isMounted) setIsLoadingProjects(false);
+            }
         }
 
         fetchProjects();
-    }, []);
+
+        return () => {
+            isMounted = false;
+        };
+    }, [isSignedIn]);
 
   return (
       <div className="home">
@@ -119,6 +132,18 @@ export default function Home() {
                           <p>Every plan you have rendered, newest first.</p>
                       </div>
                   </div>
+
+                  {!isLoadingProjects && projects.length === 0 && (
+                      <div className="empty-state">
+                          <h2>{isSignedIn ? "No projects yet" : "Sign in to see your projects"}</h2>
+                          <p>
+                              {isSignedIn
+                                  ? "Upload a floor plan above and your first render will show up here."
+                                  : "Your plans and renders are stored in your own Puter account."}
+                          </p>
+                          <a href="#upload" className="cta">Upload a floor plan</a>
+                      </div>
+                  )}
 
                   <div className="projects-grid">
                       {projects.map(({id, name, renderedImage, sourceImage, timestamp}) => (

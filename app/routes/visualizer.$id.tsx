@@ -22,6 +22,9 @@ const VisualizerId = () => {
     const [isExporting, setIsExporting] = useState(false);
     const [exportError, setExportError] = useState<string | null>(null);
 
+    const [renderError, setRenderError] = useState<string | null>(null);
+    const [notFound, setNotFound] = useState(false);
+
     const handleBack = () => navigate('/');
 
     const triggerDownload = (href: string) => {
@@ -72,6 +75,7 @@ const VisualizerId = () => {
 
         try {
             setIsProcessing(true);
+            setRenderError(null);
             const result = await generate3DView({ sourceImage: item.sourceImage });
 
             if(result.renderedImage) {
@@ -92,13 +96,25 @@ const VisualizerId = () => {
                     setProject(saved);
                     setCurrentImage(saved.renderedImage || result.renderedImage);
                 }
+            } else {
+                setRenderError('The render came back empty. Please try again.');
             }
         } catch (error) {
             console.error('Generation failed: ', error)
+            setRenderError(
+                error instanceof Error
+                    ? error.message
+                    : 'Rendering failed. Please try again.'
+            );
         } finally {
             setIsProcessing(false);
         }
     }
+
+    const handleRetry = () => {
+        if (!project || isProcessing) return;
+        void runGeneration(project);
+    };
 
     useEffect(() => {
         let isMounted = true;
@@ -110,12 +126,15 @@ const VisualizerId = () => {
             }
 
             setIsProjectLoading(true);
+            setNotFound(false);
+            setRenderError(null);
 
             const fetchedProject = await getProjectById({ id });
 
             if (!isMounted) return;
 
             setProject(fetchedProject);
+            setNotFound(!fetchedProject);
             setCurrentImage(fetchedProject?.renderedImage || null);
             setIsProjectLoading(false);
             hasInitialGenerated.current = false;
@@ -145,6 +164,36 @@ const VisualizerId = () => {
         hasInitialGenerated.current = true;
         void runGeneration(project);
     }, [project, isProjectLoading]);
+
+    if (!isProjectLoading && (notFound || !id)) {
+        return (
+            <div className="visualizer">
+                <nav className="topbar">
+                    <div className="brand">
+                        <Box className="logo" />
+                        <span className="name">Roomify</span>
+                    </div>
+                    <Button variant="ghost" size="sm" onClick={handleBack} className="exit">
+                        <X className="icon" /> Exit Editor
+                    </Button>
+                </nav>
+
+                <section className="content">
+                    <div className="panel">
+                        <div className="empty-state">
+                            <h2>Project not found</h2>
+                            <p>
+                                This project does not exist, or it belongs to a different
+                                Puter account. Check that you are signed in to the account
+                                that created it.
+                            </p>
+                            <Button onClick={handleBack}>Back to projects</Button>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        );
+    }
 
     return (
         <div className="visualizer">
@@ -187,6 +236,20 @@ const VisualizerId = () => {
 
                     {exportError && (
                         <p className="panel-error" role="alert">{exportError}</p>
+                    )}
+
+                    {renderError && (
+                        <div className="panel-error is-actionable" role="alert">
+                            <span>{renderError}</span>
+                            <Button
+                                size="sm"
+                                variant="outline"
+                                onClick={handleRetry}
+                                disabled={isProcessing}
+                            >
+                                <RefreshCcw className="w-4 h-4 mr-2" /> Try again
+                            </Button>
+                        </div>
                     )}
 
                     <div className={`render-area ${isProcessing ? 'is-processing': ''}`}>

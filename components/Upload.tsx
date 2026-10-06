@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react'
+import {type ChangeEvent, type DragEvent, useCallback, useEffect, useRef, useState} from 'react'
 import {useOutletContext} from "react-router";
 import {CheckCircle2, ImageIcon, UploadIcon} from "lucide-react";
 import {PROGRESS_INCREMENT, REDIRECT_DELAY_MS, PROGRESS_INTERVAL_MS} from "../lib/constants";
@@ -64,7 +64,7 @@ const Upload = ({ onComplete }: UploadProps) => {
         reader.readAsDataURL(file);
     }, [isSignedIn, onComplete]);
 
-    const handleDragOver = (e: React.DragEvent) => {
+    const handleDragOver = (e: DragEvent) => {
         e.preventDefault();
         if (!isSignedIn) return;
         setIsDragging(true);
@@ -74,7 +74,7 @@ const Upload = ({ onComplete }: UploadProps) => {
         setIsDragging(false);
     };
 
-    const handleDrop = (e: React.DragEvent) => {
+    const handleDrop = (e: DragEvent) => {
         e.preventDefault();
         setIsDragging(false);
 
@@ -87,7 +87,7 @@ const Upload = ({ onComplete }: UploadProps) => {
         }
     };
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         if (!isSignedIn) return;
 
         const selectedFile = e.target.files?.[0];

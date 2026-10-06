@@ -405,22 +405,6 @@
         .hero {
             @apply pt-32 pb-20 px-6 max-w-7xl mx-auto flex flex-col items-center text-center;
 
-            .announce {
-                @apply mb-8 inline-flex items-center px-3 py-1 rounded-md bg-white border border-zinc-200 shadow-sm;
-
-                .dot {
-                    @apply w-4 h-4 rounded bg-blue-100 flex items-center justify-center mr-2;
-
-                    .pulse {
-                        @apply w-2 h-2 rounded-full bg-blue-500 animate-pulse;
-                    }
-                }
-
-                p {
-                    @apply text-[10px] font-bold uppercase tracking-widest text-zinc-600;
-                }
-            }
-
             h1 {
                 @apply text-6xl md:text-8xl font-serif leading-[0.95] text-black mb-8 max-w-5xl mx-auto;
             }
@@ -438,10 +422,6 @@
                     .icon {
                         @apply ml-2 w-4 h-4;
                     }
-                }
-
-                .demo {
-                    @apply px-8 bg-white rounded-md hover:bg-zinc-50;
                 }
             }
 

@@ -1,16 +1,30 @@
 import type { Route } from "./+types/home";
 import Navbar from "../../components/Navbar";
 import {ArrowRight, ArrowUpRight, Clock, Layers} from "lucide-react";
-import Button from "../../components/ui/Button";
 import Upload from "../../components/Upload";
 import {useNavigate} from "react-router";
 import {useEffect, useRef, useState} from "react";
 import {createProject, getProjects} from "../../lib/puter.action";
 
+const TITLE = "Roomify — Photoreal renders from floor plans, in 60 seconds";
+const DESCRIPTION =
+  "Upload a 2D floor plan and get a photorealistic top-down 3D render back in under a minute. Walls extruded, doors opened, furniture placed. No CAD, no waiting on a studio.";
+const OG_IMAGE = "/readme/readme-hero.webp";
+
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "New React Router App" },
-    { name: "description", content: "Welcome to React Router!" },
+    { title: TITLE },
+    { name: "description", content: DESCRIPTION },
+
+    { property: "og:type", content: "website" },
+    { property: "og:title", content: TITLE },
+    { property: "og:description", content: DESCRIPTION },
+    { property: "og:image", content: OG_IMAGE },
+
+    { name: "twitter:card", content: "summary_large_image" },
+    { name: "twitter:title", content: TITLE },
+    { name: "twitter:description", content: DESCRIPTION },
+    { name: "twitter:image", content: OG_IMAGE },
   ];
 }
 
@@ -71,28 +85,16 @@ export default function Home() {
           <Navbar />
 
           <section className="hero">
-              <div className="announce">
-                  <div className="dot">
-                      <div className="pulse"></div>
-                  </div>
-
-                  <p>Introducing Roomify 2.0</p>
-              </div>
-
-              <h1>Build beautiful spaces at the speed of thought with Roomify</h1>
+              <h1>Photoreal renders from your floor plans, in 60 seconds</h1>
 
               <p className="subtitle">
-                  Roomify is an AI-first design environment that helps you visualize, render, and ship architectural projects faster  than ever.
+                  Upload a 2D plan. Get a photorealistic top-down 3D render back — walls extruded, doors opened, furniture placed. No CAD, no waiting on a studio.
               </p>
 
               <div className="actions">
                   <a href="#upload" className="cta">
-                      Start Building <ArrowRight className="icon" />
+                      Render my floor plan <ArrowRight className="icon" />
                   </a>
-
-                  <Button variant="outline" size="lg" className="demo">
-                      Watch Demo
-                  </Button>
               </div>
 
               <div id="upload" className="upload-shell">
@@ -113,12 +115,12 @@ export default function Home() {
               </div>
           </section>
 
-          <section className="projects">
+          <section id="projects" className="projects">
               <div className="section-inner">
                   <div className="section-head">
                       <div className="copy">
                           <h2>Projects</h2>
-                          <p>Your latest work and shared community projects, all in one place.</p>
+                          <p>Every plan you have rendered, newest first.</p>
                       </div>
                   </div>
 
@@ -126,12 +128,13 @@ export default function Home() {
                       {projects.map(({id, name, renderedImage, sourceImage, timestamp}) => (
                           <div key={id} className="project-card group" onClick={() => navigate(`/visualizer/${id}`)}>
                               <div className="preview">
-                                  <img  src={renderedImage || sourceImage} alt="Project"
-                                  />
+                                  <img src={renderedImage || sourceImage} alt={name || "Project"} />
 
-                                  <div className="badge">
-                                      <span>Community</span>
-                                  </div>
+                                  {!renderedImage && (
+                                      <div className="badge">
+                                          <span>Plan only</span>
+                                      </div>
+                                  )}
                               </div>
 
                               <div className="card-body">
@@ -141,7 +144,6 @@ export default function Home() {
                                       <div className="meta">
                                           <Clock size={12} />
                                           <span>{new Date(timestamp).toLocaleDateString()}</span>
-                                          <span>By JS Mastery</span>
                                       </div>
                                   </div>
                                   <div className="arrow">

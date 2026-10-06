@@ -1,5 +1,5 @@
 <div align="center">
-  <h1>Archify</h1>
+  <h1>Roomify</h1>
   <p><b>Turn 2D floor plans into photorealistic 3D renders with AI.</b></p>
 
   <p>
@@ -28,12 +28,12 @@
 
 ## <a name="introduction">✨ Introduction</a>
 
-**Archify** is an AI-first architectural visualization app. Upload a flat 2D floor plan and it returns a
+**Roomify** is an AI-first architectural visualization app. Upload a flat 2D floor plan and it returns a
 photorealistic, top-down 3D render of the same space — walls extruded, doors opened, windows glazed, and
 furniture placed only where the plan actually indicates it. A drag-to-compare slider puts the original plan
 and the finished render side by side.
 
-There is no traditional backend. Archify runs on **[Puter](https://puter.com)**, an "internet OS" that supplies
+There is no traditional backend. Roomify runs on **[Puter](https://puter.com)**, an "internet OS" that supplies
 authentication, key-value storage, file storage, static hosting, and hosted AI models directly from the
 browser — so each user's data lives in their own Puter account. The only server-side piece is a small Puter
 Worker that persists project metadata per user.
@@ -116,8 +116,8 @@ type.d.ts                   # global ambient types
 **Clone the repository**
 
 ```bash
-git clone https://github.com/rockyishimwe/archify
-cd archify
+git clone https://github.com/rockyishimwe/archify.git roomify
+cd roomify
 ```
 
 **Install dependencies**
